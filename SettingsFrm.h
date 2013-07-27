@@ -1,23 +1,22 @@
 //---------------------------------------------------------------------------
-
 #ifndef SettingsFrmH
 #define SettingsFrmH
+#define WM_ALPHAWINDOWS (WM_USER + 666)
 //---------------------------------------------------------------------------
-#include <System.Classes.hpp>
-#include <Vcl.Controls.hpp>
-#include <Vcl.StdCtrls.hpp>
-#include <Vcl.Forms.hpp>
 #include "sBevel.hpp"
-#include <Vcl.ExtCtrls.hpp>
 #include "sButton.hpp"
+#include "sEdit.hpp"
+#include "sLabel.hpp"
 #include "sSkinManager.hpp"
 #include "sSkinProvider.hpp"
 #include "sTabControl.hpp"
-#include <Vcl.ComCtrls.hpp>
-#include "sEdit.hpp"
-#include "sLabel.hpp"
 #include <System.Actions.hpp>
+#include <System.Classes.hpp>
 #include <Vcl.ActnList.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.StdCtrls.hpp>
 //---------------------------------------------------------------------------
 class TSettingsForm : public TForm
 {
@@ -44,6 +43,10 @@ __published:	// IDE-managed Components
 private:	// User declarations
 public:		// User declarations
 	__fastcall TSettingsForm(TComponent* Owner);
+	void __fastcall WMTransparency(TMessage &Message);
+	BEGIN_MESSAGE_MAP
+	MESSAGE_HANDLER(WM_ALPHAWINDOWS,TMessage,WMTransparency);
+	END_MESSAGE_MAP(TForm)
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TSettingsForm *SettingsForm;
