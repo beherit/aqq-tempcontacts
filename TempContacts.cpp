@@ -40,7 +40,7 @@ UnicodeString GetThemeSkinDir()
 }
 //---------------------------------------------------------------------------
 
-//Sprawdzanie czy wlaczona jest obsluga stylow obramowania okien
+//Sprawdzanie czy  wlaczona jest zaawansowana stylizacja okien
 bool ChkSkinEnabled()
 {
   TStrings* IniList = new TStringList();
@@ -54,17 +54,29 @@ bool ChkSkinEnabled()
 }
 //---------------------------------------------------------------------------
 
-//Sprawdzanie czy wlaczony jest natywny styl Windows
-bool ChkNativeEnabled()
+//Sprawdzanie ustawien animacji AlphaControls
+bool ChkThemeAnimateWindows()
 {
   TStrings* IniList = new TStringList();
   IniList->SetText((wchar_t*)PluginLink.CallService(AQQ_FUNCTION_FETCHSETUP,0,0));
   TMemIniFile *Settings = new TMemIniFile(ChangeFileExt(Application->ExeName, ".INI"));
   Settings->SetStrings(IniList);
   delete IniList;
-  UnicodeString NativeEnabled = Settings->ReadString("Settings","Native","0");
+  UnicodeString AnimateWindowsEnabled = Settings->ReadString("Theme","ThemeAnimateWindows","1");
   delete Settings;
-  return StrToBool(NativeEnabled);
+  return StrToBool(AnimateWindowsEnabled);
+}
+//---------------------------------------------------------------------------
+bool ChkThemeGlowing()
+{
+  TStrings* IniList = new TStringList();
+  IniList->SetText((wchar_t*)PluginLink.CallService(AQQ_FUNCTION_FETCHSETUP,0,0));
+  TMemIniFile *Settings = new TMemIniFile(ChangeFileExt(Application->ExeName, ".INI"));
+  Settings->SetStrings(IniList);
+  delete IniList;
+  UnicodeString GlowingEnabled = Settings->ReadString("Theme","ThemeGlowing","1");
+  delete Settings;
+  return StrToBool(GlowingEnabled);
 }
 //---------------------------------------------------------------------------
 
@@ -93,24 +105,30 @@ int __stdcall OnActiveTab(WPARAM wParam, LPARAM lParam)
 //Hook na zmiane kompozycji
 int __stdcall OnThemeChanged(WPARAM wParam, LPARAM lParam)
 {
-  //Pobieranie sciezki nowej aktywnej kompozycji
-  UnicodeString ThemeDir = StringReplace((wchar_t*)lParam, "\\", "\\\\", TReplaceFlags() << rfReplaceAll);
-  //Zmiana skorki wtyczki
+  //Okno ustawien zostalo juz stworzone
   if(hSettingsForm)
   {
-	//Wlaczenie skorkowania
-	if((FileExists(ThemeDir+"\\\\Skin\\\\Skin.asz"))&&(!ChkNativeEnabled()))
+	//Wlaczona zaawansowana stylizacja okien
+	if(ChkSkinEnabled())
 	{
-	  UnicodeString ThemeSkinDir = ThemeDir+"\\\\Skin";
-	  ThemeSkinDir = StringReplace(ThemeSkinDir, "\\\\", "\\", TReplaceFlags() << rfReplaceAll);
-	  hSettingsForm->sSkinManager->SkinDirectory = ThemeSkinDir;
-	  hSettingsForm->sSkinManager->SkinName = "Skin.asz";
-	  hSettingsForm->sSkinProvider->DrawNonClientArea = ChkSkinEnabled();
-	  hSettingsForm->sSkinManager->Active = true;
+	  //Pobieranie sciezki nowej aktywnej kompozycji
+	  UnicodeString ThemeDir = StringReplace((wchar_t*)lParam, "\\", "\\\\", TReplaceFlags() << rfReplaceAll);
+	  //Plik zaawansowanej stylizacji okien istnieje
+	  if(FileExists(ThemeDir + "\\\\Skin\\\\Skin.asz"))
+	  {
+		ThemeDir = StringReplace(ThemeDir, "\\\\", "\\", TReplaceFlags() << rfReplaceAll);
+		hSettingsForm->sSkinManager->SkinDirectory = ThemeDir + "\\Skin";
+		hSettingsForm->sSkinManager->SkinName = "Skin.asz";
+		if(ChkThemeAnimateWindows()) hSettingsForm->sSkinManager->AnimEffects->FormShow->Time = 200;
+		else hSettingsForm->sSkinManager->AnimEffects->FormShow->Time = 0;
+		hSettingsForm->sSkinManager->Effects->AllowGlowing = ChkThemeGlowing();
+		hSettingsForm->sSkinManager->Active = true;
+	  }
+	  //Brak pliku zaawansowanej stylizacji okien
+	  else hSettingsForm->sSkinManager->Active = false;
 	}
-	//Wylaczenie skorkowania
-	else
-	 hSettingsForm->sSkinManager->Active = false;
+	//Zaawansowana stylizacja okien wylaczona
+	else hSettingsForm->sSkinManager->Active = false;
   }
 
   return 0;
@@ -177,7 +195,7 @@ extern "C" __declspec(dllexport) PPluginInfo __stdcall AQQPluginInfo(DWORD AQQVe
 {
   PluginInfo.cbSize = sizeof(TPluginInfo);
   PluginInfo.ShortName = L"TempContacts";
-  PluginInfo.Version = PLUGIN_MAKE_VERSION(1,1,0,0);
+  PluginInfo.Version = PLUGIN_MAKE_VERSION(1,2,0,0);
   PluginInfo.Description = L"Wtyczka s³u¿y do automatycznego tymczasowego zapisywania na listê kontaktów osób, których na tej liœcie...nie mamy ;)";
   PluginInfo.Author = L"Krzysztof Grochocki (Beherit)";
   PluginInfo.AuthorMail = L"kontakt@beherit.pl";
