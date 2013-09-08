@@ -1,3 +1,11 @@
+1.3.0.0
+-----
+* Mo¿liwoœæ dodania kontatku na sta³e do listy.
+* Obs³uga kolorystyki stylizacji okien (barwa i nasycenie).
+* Optymalizacja kodu.
+* Drobna poprawka w obs³udze nadawania przeŸroczystoœci obramowañ przez wtyczkê AlphaWindows.
+* Aktualizacja komponentów AlphaControls do nowszej wersji (8.45).
+
 1.2.0.0
 -----
 * Dodanie 64-bitowej wersji wtyczki.
