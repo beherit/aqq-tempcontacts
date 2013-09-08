@@ -275,6 +275,7 @@ object SettingsForm: TSettingsForm
     ThirdParty.ThirdScrollControl = ' '
     ThirdParty.ThirdUpDown = ' '
     ThirdParty.ThirdScrollBar = ' '
+    ThirdParty.ThirdStaticText = ' '
     Top = 149
   end
   object ActionList: TActionList
