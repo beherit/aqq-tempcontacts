@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// Copyright (C) 2010-2013 Krzysztof Grochocki
+// Copyright (C) 2010-2014 Krzysztof Grochocki
 //
 // This file is part of TempContacts
 //
@@ -48,10 +48,10 @@ TPluginContact TempContact;
 //SETTINGS-------------------------------------------------------------------
 UnicodeString GroupName;
 //FORWARD-AQQ-HOOKS----------------------------------------------------------
-int __stdcall OnActiveTab(WPARAM wParam, LPARAM lParam);
-int __stdcall OnCloseTab(WPARAM wParam, LPARAM lParam);
-int __stdcall OnThemeChanged(WPARAM wParam, LPARAM lParam);
-int __stdcall ServiceTempContactsAddItem(WPARAM wParam, LPARAM lParam);
+INT_PTR __stdcall OnActiveTab(WPARAM wParam, LPARAM lParam);
+INT_PTR __stdcall OnCloseTab(WPARAM wParam, LPARAM lParam);
+INT_PTR __stdcall OnThemeChanged(WPARAM wParam, LPARAM lParam);
+INT_PTR __stdcall ServiceTempContactsAddItem(WPARAM wParam, LPARAM lParam);
 //---------------------------------------------------------------------------
 
 //Pobieranie sciezki katalogu prywatnego wtyczek
@@ -130,7 +130,7 @@ UnicodeString GetAgentName(int UserIdx)
 //---------------------------------------------------------------------------
 
 //Serwis dodawania kontaktu na stale do listy
-int __stdcall ServiceTempContactsAddItem(WPARAM wParam, LPARAM lParam)
+INT_PTR __stdcall ServiceTempContactsAddItem(WPARAM wParam, LPARAM lParam)
 {
   //Usuniecie kontaktu z listy
   PluginLink.CallService(AQQ_CONTACTS_DELETE,0,(LPARAM)&TempContact);
@@ -151,7 +151,7 @@ int __stdcall ServiceTempContactsAddItem(WPARAM wParam, LPARAM lParam)
 //---------------------------------------------------------------------------
 
 //Hook na aktwyna zakladke lub okno rozmowy
-int __stdcall OnActiveTab(WPARAM wParam, LPARAM lParam)
+INT_PTR __stdcall OnActiveTab(WPARAM wParam, LPARAM lParam)
 {
   //Wczesniejsza zakladka miala stworzony przycisk
   if(TempContactsList->IndexOf(LastActiveJID)!=-1)
@@ -236,7 +236,7 @@ int __stdcall OnActiveTab(WPARAM wParam, LPARAM lParam)
 //---------------------------------------------------------------------------
 
 //Hook na zamkniecie okna rozmowy lub zakladki
-int __stdcall OnCloseTab(WPARAM wParam, LPARAM lParam)
+INT_PTR __stdcall OnCloseTab(WPARAM wParam, LPARAM lParam)
 {
   //Pobieranie danych dt. kontaktu
   TPluginContact CloseTabContact = *(PPluginContact)lParam;
@@ -259,7 +259,7 @@ int __stdcall OnCloseTab(WPARAM wParam, LPARAM lParam)
 //---------------------------------------------------------------------------
 
 //Hook na zmiane kompozycji
-int __stdcall OnThemeChanged(WPARAM wParam, LPARAM lParam)
+INT_PTR __stdcall OnThemeChanged(WPARAM wParam, LPARAM lParam)
 {
   //Okno ustawien zostalo juz stworzone
   if(hSettingsForm)
@@ -307,7 +307,7 @@ void LoadSettings()
 //---------------------------------------------------------------------------
 
 //Zaladowanie wtyczki
-extern "C" int __declspec(dllexport) __stdcall Load(PPluginLink Link)
+extern "C" INT_PTR __declspec(dllexport) __stdcall Load(PPluginLink Link)
 {
   //Linkowanie wtyczki z komunikatorem
   PluginLink = *Link;
@@ -330,7 +330,7 @@ extern "C" int __declspec(dllexport) __stdcall Load(PPluginLink Link)
 //---------------------------------------------------------------------------
 
 //Wyladowanie wtyczki
-extern "C" int __declspec(dllexport) __stdcall Unload()
+extern "C" INT_PTR __declspec(dllexport) __stdcall Unload()
 {
   //Usuniecie przycisku
   TPluginAction TempContactsAddButton;
@@ -351,7 +351,7 @@ extern "C" int __declspec(dllexport) __stdcall Unload()
 //---------------------------------------------------------------------------
 
 //Ustawienia wtyczki
-extern "C" int __declspec(dllexport)__stdcall Settings()
+extern "C" INT_PTR __declspec(dllexport)__stdcall Settings()
 {
   //Przypisanie uchwytu do formy ustawien
   if(!hSettingsForm)
@@ -371,11 +371,11 @@ extern "C" __declspec(dllexport) PPluginInfo __stdcall AQQPluginInfo(DWORD AQQVe
 {
   PluginInfo.cbSize = sizeof(TPluginInfo);
   PluginInfo.ShortName = L"TempContacts";
-  PluginInfo.Version = PLUGIN_MAKE_VERSION(1,3,0,0);
+  PluginInfo.Version = PLUGIN_MAKE_VERSION(1,4,0,0);
   PluginInfo.Description = L"Wtyczka s³u¿y do automatycznego tymczasowego zapisywania na listê kontaktów osób, których na tej liœcie...nie mamy ;)";
-  PluginInfo.Author = L"Krzysztof Grochocki (Beherit)";
+  PluginInfo.Author = L"Krzysztof Grochocki";
   PluginInfo.AuthorMail = L"kontakt@beherit.pl";
-  PluginInfo.Copyright = L"Krzysztof Grochocki (Beherit)";
+  PluginInfo.Copyright = L"Krzysztof Grochocki";
   PluginInfo.Homepage = L"http://beherit.pl";
   PluginInfo.Flag = 0;
   PluginInfo.ReplaceDefaultModule = 0;
