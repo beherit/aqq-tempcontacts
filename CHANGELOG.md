@@ -1,3 +1,9 @@
+1.4.0.0
+-----
+* Kompilacja pod poprawionymi nag³ówkami dla wersji 64-bitowej.
+* Zmniejszenie rozmiaru wtyczki 64-bitowej poprzez u¿ycie kompresji LZMA.
+* Aktualizacja komponentów AlphaControls do nowszej wersji (8.53).
+
 1.3.0.0
 -----
 * Mo¿liwoœæ dodania kontatku na sta³e do listy.
