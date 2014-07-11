@@ -1,3 +1,8 @@
+1.4.2.0
+-----
+* Nieskórkowanie systemowych okien dialogowych niepochodzących z wtyczki.
+* Aktualizacja komponentów AlphaControls do nowszej wersji (9.10).
+
 1.4.0.0
 -----
 * Kompilacja pod poprawionymi nagłówkami dla wersji 64-bitowej.

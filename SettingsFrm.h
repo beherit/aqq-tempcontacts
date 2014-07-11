@@ -61,6 +61,7 @@ __published:	// IDE-managed Components
 	void __fastcall aSaveSettingsExecute(TObject *Sender);
 	void __fastcall GroupNameEditChange(TObject *Sender);
 	void __fastcall SaveButtonClick(TObject *Sender);
+	void __fastcall sSkinManagerSysDlgInit(TacSysDlgData DlgData, bool &AllowSkinning);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TSettingsForm(TComponent* Owner);
