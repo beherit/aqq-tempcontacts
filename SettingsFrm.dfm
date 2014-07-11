@@ -252,7 +252,7 @@ object SettingsForm: TSettingsForm
     MenuSupport.ExtraLineFont.Height = -11
     MenuSupport.ExtraLineFont.Name = 'Tahoma'
     MenuSupport.ExtraLineFont.Style = []
-    SkinDirectory = 'c:\Skins'
+    Options.OptimizingPriority = opMemory
     SkinInfo = 'N/A'
     ThirdParty.ThirdEdits = ' '
     ThirdParty.ThirdButtons = 'TButton'
@@ -276,6 +276,8 @@ object SettingsForm: TSettingsForm
     ThirdParty.ThirdUpDown = ' '
     ThirdParty.ThirdScrollBar = ' '
     ThirdParty.ThirdStaticText = ' '
+    ThirdParty.ThirdNativePaint = ' '
+    OnSysDlgInit = sSkinManagerSysDlgInit
     Top = 149
   end
   object ActionList: TActionList
