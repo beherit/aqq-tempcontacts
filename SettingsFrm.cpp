@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// Copyright (C) 2010-2014 Krzysztof Grochocki
+// Copyright (C) 2010-2015 Krzysztof Grochocki
 //
 // This file is part of TempContacts
 //
@@ -54,100 +54,99 @@ __fastcall TSettingsForm::TSettingsForm(TComponent* Owner)
 
 void __fastcall TSettingsForm::WMTransparency(TMessage &Message)
 {
-  Application->ProcessMessages();
-  if(sSkinManager->Active) sSkinProvider->BorderForm->UpdateExBordersPos(true,(int)Message.LParam);
+	Application->ProcessMessages();
+	if(sSkinManager->Active) sSkinProvider->BorderForm->UpdateExBordersPos(true,(int)Message.LParam);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TSettingsForm::FormCreate(TObject *Sender)
 {
-  //Wlaczona zaawansowana stylizacja okien
-  if(ChkSkinEnabled())
-  {
-	UnicodeString ThemeSkinDir = GetThemeSkinDir();
-	//Plik zaawansowanej stylizacji okien istnieje
-	if(FileExists(ThemeSkinDir + "\\\\Skin.asz"))
+	//Wlaczona zaawansowana stylizacja okien
+	if(ChkSkinEnabled())
 	{
-	  //Dane pliku zaawansowanej stylizacji okien
-	  ThemeSkinDir = StringReplace(ThemeSkinDir, "\\\\", "\\", TReplaceFlags() << rfReplaceAll);
-	  sSkinManager->SkinDirectory = ThemeSkinDir;
-	  sSkinManager->SkinName = "Skin.asz";
-	  //Ustawianie animacji AlphaControls
-	  if(ChkThemeAnimateWindows()) sSkinManager->AnimEffects->FormShow->Time = 200;
-	  else sSkinManager->AnimEffects->FormShow->Time = 0;
-	  sSkinManager->Effects->AllowGlowing = ChkThemeGlowing();
-	  //Zmiana kolorystyki AlphaControls
-	  sSkinManager->HueOffset = GetHUE();
-	  sSkinManager->Saturation = GetSaturation();
-      //Aktywacja skorkowania AlphaControls
-	  sSkinManager->Active = true;
+		UnicodeString ThemeSkinDir = GetThemeSkinDir();
+		//Plik zaawansowanej stylizacji okien istnieje
+		if(FileExists(ThemeSkinDir + "\\\\Skin.asz"))
+		{
+			//Dane pliku zaawansowanej stylizacji okien
+			ThemeSkinDir = StringReplace(ThemeSkinDir, "\\\\", "\\", TReplaceFlags() << rfReplaceAll);
+			sSkinManager->SkinDirectory = ThemeSkinDir;
+			sSkinManager->SkinName = "Skin.asz";
+			//Ustawianie animacji AlphaControls
+			if(ChkThemeAnimateWindows()) sSkinManager->AnimEffects->FormShow->Time = 200;
+			else sSkinManager->AnimEffects->FormShow->Time = 0;
+			sSkinManager->Effects->AllowGlowing = ChkThemeGlowing();
+			//Zmiana kolorystyki AlphaControls
+			sSkinManager->HueOffset = GetHUE();
+			sSkinManager->Saturation = GetSaturation();
+			//Aktywacja skorkowania AlphaControls
+			sSkinManager->Active = true;
+		}
+		//Brak pliku zaawansowanej stylizacji okien
+		else sSkinManager->Active = false;
 	}
-	//Brak pliku zaawansowanej stylizacji okien
+	//Zaawansowana stylizacja okien wylaczona
 	else sSkinManager->Active = false;
-  }
-  //Zaawansowana stylizacja okien wylaczona
-  else sSkinManager->Active = false;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TSettingsForm::FormShow(TObject *Sender)
 {
-  //Odczyt ustawien wtyczki
-  aLoadSettings->Execute();
-  //Wylaczenie przycisku
-  SaveButton->Enabled = false;
+	//Odczyt ustawien wtyczki
+	aLoadSettings->Execute();
+	//Wylaczenie przycisku
+	SaveButton->Enabled = false;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TSettingsForm::aExitExecute(TObject *Sender)
 {
-  Close();
+	Close();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TSettingsForm::aLoadSettingsExecute(TObject *Sender)
 {
-  TIniFile *Ini = new TIniFile(GetPluginUserDir()+"\\\\TempContacts\\\\Settings.ini");
-  GroupNameEdit->Text = Ini->ReadString("Settings","GroupName","Kontakty tymczasowe");
-  delete Ini;
+	TIniFile *Ini = new TIniFile(GetPluginUserDir()+"\\\\TempContacts\\\\Settings.ini");
+	GroupNameEdit->Text = Ini->ReadString("Settings","GroupName","Kontakty tymczasowe");
+	delete Ini;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TSettingsForm::aSaveSettingsExecute(TObject *Sender)
 {
-  TIniFile *Ini = new TIniFile(GetPluginUserDir()+"\\\\TempContacts\\\\Settings.ini");
-  Ini->WriteString("Settings","GroupName",GroupNameEdit->Text);
-  delete Ini;
+	TIniFile *Ini = new TIniFile(GetPluginUserDir()+"\\\\TempContacts\\\\Settings.ini");
+	Ini->WriteString("Settings","GroupName",GroupNameEdit->Text);
+	delete Ini;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TSettingsForm::GroupNameEditChange(TObject *Sender)
 {
-  //Wlaczenie przycisku
-  if(!GroupNameEdit->Text.IsEmpty())
-   SaveButton->Enabled = true;
-  //Wylaczenie przycisku
-  else
-   SaveButton->Enabled = false;
+	//Wlaczenie przycisku
+	if(!GroupNameEdit->Text.IsEmpty())
+		SaveButton->Enabled = true;
+	//Wylaczenie przycisku
+	else
+		SaveButton->Enabled = false;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TSettingsForm::SaveButtonClick(TObject *Sender)
 {
-  //Wylaczenie przycisku
-  SaveButton->Enabled = false;
-  //Zapisanie ustawien
-  aSaveSettings->Execute();
-  //Odczyt ustawien w rdzeniu wtyczki
-  LoadSettings();
-  //Zamkniecie formy
-  Close();
+	//Wylaczenie przycisku
+	SaveButton->Enabled = false;
+	//Zapisanie ustawien
+	aSaveSettings->Execute();
+	//Odczyt ustawien w rdzeniu wtyczki
+	LoadSettings();
+	//Zamkniecie formy
+	Close();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TSettingsForm::sSkinManagerSysDlgInit(TacSysDlgData DlgData, bool &AllowSkinning)
 {
-  AllowSkinning = false;
+	AllowSkinning = false;
 }
 //---------------------------------------------------------------------------
-
