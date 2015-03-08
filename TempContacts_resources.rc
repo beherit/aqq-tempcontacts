@@ -1,3 +1,4 @@
+SHARED DATA "Data\\TempContacts.dll.png"
 EN_CONST DATA "Languages\\EN\\Const.lng"
 EN_SETTINGSFRM DATA "Languages\\EN\\TSettingsForm.lng"
 PL_CONST DATA "Languages\\PL\\Const.lng"
