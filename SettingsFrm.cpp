@@ -22,6 +22,7 @@
 //---------------------------------------------------------------------------
 #include <vcl.h>
 #include <inifiles.hpp>
+#include <LangAPI.hpp>
 #pragma hdrstop
 #include "SettingsFrm.h"
 //---------------------------------------------------------------------------
@@ -62,6 +63,8 @@ void __fastcall TSettingsForm::WMTransparency(TMessage &Message)
 
 void __fastcall TSettingsForm::FormCreate(TObject *Sender)
 {
+	//Lokalizowanie formy
+	LangForm(this);
 	//Wlaczona zaawansowana stylizacja okien
 	if(ChkSkinEnabled())
 	{
@@ -110,7 +113,7 @@ void __fastcall TSettingsForm::aExitExecute(TObject *Sender)
 void __fastcall TSettingsForm::aLoadSettingsExecute(TObject *Sender)
 {
 	TIniFile *Ini = new TIniFile(GetPluginUserDir()+"\\\\TempContacts\\\\Settings.ini");
-	GroupNameEdit->Text = Ini->ReadString("Settings","GroupName","Kontakty tymczasowe");
+	GroupNameEdit->Text = Ini->ReadString("Settings","GroupName",GetLangStr("GroupName"));
 	delete Ini;
 }
 //---------------------------------------------------------------------------
