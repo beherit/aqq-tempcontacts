@@ -178,7 +178,7 @@ INT_PTR __stdcall OnActiveTab(WPARAM wParam, LPARAM lParam)
 	TPluginContact ActiveTabContact = *(PPluginContact)lParam;
 	UnicodeString JID = (wchar_t*)ActiveTabContact.JID;
 	//Kontakt nie jest dodany do listy i nie jest czatem
-	if((ActiveTabContact.Temporary)&&(!ActiveTabContact.IsChat))
+	if((TempContactsList->IndexOf(JID)==-1)&&(ActiveTabContact.Temporary)&&(!ActiveTabContact.IsChat))
 	{
 		//Dodanie kontaktu do listy tymczasowych kontaktow
 		TempContactsList->Add(JID);
