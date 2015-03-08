@@ -22,7 +22,9 @@
 #include <vcl.h>
 #include <windows.h>
 #include <inifiles.hpp>
+#include <IdHashMessageDigest.hpp>
 #include <PluginAPI.h>
+#include <LangAPI.hpp>
 #pragma hdrstop
 #include "SettingsFrm.h"
 
@@ -50,6 +52,7 @@ UnicodeString GroupName;
 INT_PTR __stdcall OnActiveTab(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall OnColorChange(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall OnCloseTab(WPARAM wParam, LPARAM lParam);
+INT_PTR __stdcall OnLangCodeChanged(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall OnThemeChanged(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall ServiceTempContactsAddItem(WPARAM wParam, LPARAM lParam);
 //---------------------------------------------------------------------------
@@ -182,7 +185,7 @@ INT_PTR __stdcall OnActiveTab(WPARAM wParam, LPARAM lParam)
 		//Ustawianie stanu kontaktu
 		ActiveTabContact.State = 6;
 		//Ustawianie opisu kontaktu
-		ActiveTabContact.Status = L"Kontakt tymczasowy";
+		ActiveTabContact.Status = GetLangStr("ContactStatus").w_str();
 		//Ustawianie grupy kontaktu
 		ActiveTabContact.Groups = GroupName.w_str();
 		//Dodawanie kontaktu do listy kontaktow
@@ -196,7 +199,7 @@ INT_PTR __stdcall OnActiveTab(WPARAM wParam, LPARAM lParam)
 		ZeroMemory(&TempContactsAddButton,sizeof(TPluginAction));
 		TempContactsAddButton.cbSize = sizeof(TPluginAction);
 		TempContactsAddButton.pszName = L"TempContactsAddItem";
-		TempContactsAddButton.Hint = L"Dodaj kontakt na sta³e do listy";
+		TempContactsAddButton.Hint = GetLangStr("AddButtonHint").w_str();
 		TempContactsAddButton.IconIndex = 14;
 		TempContactsAddButton.pszService = L"sTempContactsAddItem";
 		TempContactsAddButton.Handle = (int)hFrmSend;
@@ -283,6 +286,29 @@ INT_PTR __stdcall OnCloseTab(WPARAM wParam, LPARAM lParam)
 }
 //---------------------------------------------------------------------------
 
+//Hook na zmiane lokalizacji
+INT_PTR __stdcall OnLangCodeChanged(WPARAM wParam, LPARAM lParam)
+{
+	//Czyszczenie cache lokalizacji
+	ClearLngCache();
+	//Pobranie sciezki do katalogu prywatnego uzytkownika
+	UnicodeString PluginUserDir = GetPluginUserDir();
+	//Ustawienie sciezki lokalizacji wtyczki
+	UnicodeString LangCode = (wchar_t*)lParam;
+	LangPath = PluginUserDir + "\\\\Languages\\\\TempContacts\\\\" + LangCode + "\\\\";
+	if(!DirectoryExists(LangPath))
+	{
+		LangCode = (wchar_t*)PluginLink.CallService(AQQ_FUNCTION_GETDEFLANGCODE,0,0);
+		LangPath = PluginUserDir + "\\\\Languages\\\\TempContacts\\\\" + LangCode + "\\\\";
+	}
+	//Aktualizacja lokalizacji form wtyczki
+	for(int i=0;i<Screen->FormCount;i++)
+		LangForm(Screen->Forms[i]);
+
+	return 0;
+}
+//---------------------------------------------------------------------------
+
 //Hook na zmiane kompozycji
 INT_PTR __stdcall OnThemeChanged(WPARAM wParam, LPARAM lParam)
 {
@@ -327,8 +353,50 @@ INT_PTR __stdcall OnThemeChanged(WPARAM wParam, LPARAM lParam)
 void LoadSettings()
 {
 	TIniFile *Ini = new TIniFile(GetPluginUserDir()+"\\\\TempContacts\\\\Settings.ini");
-	GroupName = Ini->ReadString("Settings","GroupName","Kontakty tymczasowe");
+	GroupName = Ini->ReadString("Settings","GroupName",GetLangStr("GroupName"));
 	delete Ini;
+}
+//---------------------------------------------------------------------------
+
+//Zapisywanie zasobów
+void ExtractRes(wchar_t* FileName, wchar_t* ResName, wchar_t* ResType)
+{
+	TPluginTwoFlagParams PluginTwoFlagParams;
+	PluginTwoFlagParams.cbSize = sizeof(TPluginTwoFlagParams);
+	PluginTwoFlagParams.Param1 = ResName;
+	PluginTwoFlagParams.Param2 = ResType;
+	PluginTwoFlagParams.Flag1 = (int)HInstance;
+	PluginLink.CallService(AQQ_FUNCTION_SAVERESOURCE,(WPARAM)&PluginTwoFlagParams,(LPARAM)FileName);
+}
+//---------------------------------------------------------------------------
+
+//Obliczanie sumy kontrolnej pliku
+UnicodeString MD5File(UnicodeString FileName)
+{
+	if(FileExists(FileName))
+	{
+		UnicodeString Result;
+		TFileStream *fs;
+		fs = new TFileStream(FileName, fmOpenRead | fmShareDenyWrite);
+		try
+		{
+			TIdHashMessageDigest5 *idmd5= new TIdHashMessageDigest5();
+			try
+			{
+				Result = idmd5->HashStreamAsHex(fs);
+			}
+			__finally
+			{
+				delete idmd5;
+			}
+		}
+		__finally
+		{
+			delete fs;
+		}
+		return Result;
+	}
+	else return 0;
 }
 //---------------------------------------------------------------------------
 
@@ -337,6 +405,49 @@ extern "C" INT_PTR __declspec(dllexport) __stdcall Load(PPluginLink Link)
 {
 	//Linkowanie wtyczki z komunikatorem
 	PluginLink = *Link;
+  //Pobranie sciezki do prywatnego folderu wtyczek
+	UnicodeString PluginUserDir = GetPluginUserDir();
+	//Tworzenie katalogow lokalizacji
+	if(!DirectoryExists(PluginUserDir+"\\\\Languages"))
+		CreateDir(PluginUserDir+"\\\\Languages");
+	if(!DirectoryExists(PluginUserDir+"\\\\Languages\\\\TempContacts"))
+		CreateDir(PluginUserDir+"\\\\Languages\\\\TempContacts");
+	if(!DirectoryExists(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN"))
+		CreateDir(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN");
+	if(!DirectoryExists(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\PL"))
+		CreateDir(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\PL");
+  //Wypakowanie plikow lokalizacji
+	//DB0D6BF9F2B629BEEBE4BA1F8F80F236
+	if(!FileExists(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\Const.lng"))
+		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\Const.lng").w_str(),L"EN_CONST",L"DATA");
+	else if(MD5File(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\Const.lng")!="DB0D6BF9F2B629BEEBE4BA1F8F80F236")
+		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\Const.lng").w_str(),L"EN_CONST",L"DATA");
+	//7D6612AC431C191A3CBD8F1D6923F553
+	if(!FileExists(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\TSettingsForm.lng"))
+		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\TSettingsForm.lng").w_str(),L"EN_SETTINGSFRM",L"DATA");
+	else if(MD5File(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\TSettingsForm.lng")!="7D6612AC431C191A3CBD8F1D6923F553")
+		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\TSettingsForm.lng").w_str(),L"EN_SETTINGSFRM",L"DATA");
+	//E52894D712F3170CE4E456FDA3763E71
+	if(!FileExists(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\PL\\\\Const.lng"))
+		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\PL\\\\Const.lng").w_str(),L"PL_CONST",L"DATA");
+	else if(MD5File(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\PL\\\\Const.lng")!="E52894D712F3170CE4E456FDA3763E71")
+		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\PL\\\\Const.lng").w_str(),L"PL_CONST",L"DATA");
+	//59225DC3C8589C1BC35D8F692E4AA985
+	if(!FileExists(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\PL\\\\TSettingsForm.lng"))
+		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\PL\\\\TSettingsForm.lng").w_str(),L"PL_SETTINGSFRM",L"DATA");
+	else if(MD5File(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\PL\\\\TSettingsForm.lng")!="59225DC3C8589C1BC35D8F692E4AA985")
+		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\PL\\\\TSettingsForm.lng").w_str(),L"PL_SETTINGSFRM",L"DATA");
+	//Ustawienie sciezki lokalizacji wtyczki
+	UnicodeString LangCode = (wchar_t*)PluginLink.CallService(AQQ_FUNCTION_GETLANGCODE,0,0);
+	LangPath = PluginUserDir + "\\\\Languages\\\\TempContacts\\\\" + LangCode + "\\\\";
+	if(!DirectoryExists(LangPath))
+	{
+		LangCode = (wchar_t*)PluginLink.CallService(AQQ_FUNCTION_GETDEFLANGCODE,0,0);
+		LangPath = PluginUserDir + "\\\\Languages\\\\TempContacts\\\\" + LangCode + "\\\\";
+	}
+	//Tworzeniu katalogu z ustawieniami wtyczki
+	if(!DirectoryExists(GetPluginUserDir()+"\\\\TempContacts"))
+		CreateDir(GetPluginUserDir()+"\\\\TempContacts");
 	//Tworzenie serwisu dodawania kontaktu na stale do listy
 	PluginLink.CreateServiceFunction(L"sTempContactsAddItem",ServiceTempContactsAddItem);
 	//Hook na aktwyna zakladke lub okno rozmowy
@@ -345,11 +456,10 @@ extern "C" INT_PTR __declspec(dllexport) __stdcall Load(PPluginLink Link)
 	PluginLink.HookEvent(AQQ_SYSTEM_COLORCHANGEV2,OnColorChange);
 	//Hook na zamkniecie okna rozmowy lub zakladki
 	PluginLink.HookEvent(AQQ_CONTACTS_BUDDY_CLOSETAB,OnCloseTab);
+	//Hook na zmiane lokalizacji
+	PluginLink.HookEvent(AQQ_SYSTEM_LANGCODE_CHANGED,OnLangCodeChanged);
 	//Hook na zmiane kompozycji
 	PluginLink.HookEvent(AQQ_SYSTEM_THEMECHANGED,OnThemeChanged);
-	//Tworzeniu katalogu z ustawieniami wtyczki
-	if(!DirectoryExists(GetPluginUserDir()+"\\\\TempContacts"))
-		CreateDir(GetPluginUserDir()+"\\\\TempContacts");
 	//Odczyt ustawien
 	LoadSettings();
 
@@ -373,6 +483,7 @@ extern "C" INT_PTR __declspec(dllexport) __stdcall Unload()
 	PluginLink.UnhookEvent(OnActiveTab);
 	PluginLink.UnhookEvent(OnColorChange);
 	PluginLink.UnhookEvent(OnCloseTab);
+	PluginLink.UnhookEvent(OnLangCodeChanged);
 	PluginLink.UnhookEvent(OnThemeChanged);
 
 	return 0;

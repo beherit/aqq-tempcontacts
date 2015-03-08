@@ -1,4 +1,5 @@
 object SettingsForm: TSettingsForm
+  Tag = 1
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
@@ -164,6 +165,7 @@ object SettingsForm: TSettingsForm
     ExplicitWidth = 335
   end
   object SaveButton: TsButton
+    Tag = 2
     Left = 167
     Top = 146
     Width = 75
@@ -175,6 +177,7 @@ object SettingsForm: TSettingsForm
     SkinData.SkinSection = 'BUTTON'
   end
   object CancelButton: TsButton
+    Tag = 3
     Left = 86
     Top = 146
     Width = 75
@@ -196,20 +199,24 @@ object SettingsForm: TSettingsForm
     Margins.Bottom = 6
     Align = alClient
     TabOrder = 2
+    TabStop = False
     SkinData.SkinSection = 'PAGECONTROL'
     object InfoLabel: TsLabel
-      Left = 25
+      Tag = 5
+      Left = 21
       Top = 61
-      Width = 187
+      Width = 195
       Height = 52
       Alignment = taCenter
+      AutoSize = False
       Caption = 
         'Kontakty spoza listy b'#281'd'#261' automatycznie dodawane do wy'#380'ej wymien' +
-        'ionej grupy i pozostan'#261' tam do zamkni'#281'cia komunikatora'
+        'ionej grupy i pozostan'#261' tam, a'#380' do zamkni'#281'cia komunikatora'
       Enabled = False
       WordWrap = True
     end
     object GroupNameEdit: TsEdit
+      Tag = 4
       Left = 21
       Top = 34
       Width = 195
@@ -253,6 +260,7 @@ object SettingsForm: TSettingsForm
     MenuSupport.ExtraLineFont.Name = 'Tahoma'
     MenuSupport.ExtraLineFont.Style = []
     Options.OptimizingPriority = opMemory
+    SkinDirectory = 'c:\Skins'
     SkinInfo = 'N/A'
     ThirdParty.ThirdEdits = ' '
     ThirdParty.ThirdButtons = 'TButton'
