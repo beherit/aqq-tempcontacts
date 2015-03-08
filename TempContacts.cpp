@@ -48,6 +48,7 @@ TPluginContact TempContact;
 UnicodeString GroupName;
 //FORWARD-AQQ-HOOKS----------------------------------------------------------
 INT_PTR __stdcall OnActiveTab(WPARAM wParam, LPARAM lParam);
+INT_PTR __stdcall OnColorChange(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall OnCloseTab(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall OnThemeChanged(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall ServiceTempContactsAddItem(WPARAM wParam, LPARAM lParam);
@@ -116,6 +117,11 @@ int GetHUE()
 int GetSaturation()
 {
 	return (int)PluginLink.CallService(AQQ_SYSTEM_COLORGETSATURATION,0,0);
+}
+//---------------------------------------------------------------------------
+int GetBrightness()
+{
+	return (int)PluginLink.CallService(AQQ_SYSTEM_COLORGETBRIGHTNESS,0,0);
 }
 //---------------------------------------------------------------------------
 
@@ -234,6 +240,26 @@ INT_PTR __stdcall OnActiveTab(WPARAM wParam, LPARAM lParam)
 }
 //---------------------------------------------------------------------------
 
+//Hook na zmiane kolorystyki AlphaControls
+INT_PTR __stdcall OnColorChange(WPARAM wParam, LPARAM lParam)
+{
+	//Okno ustawien zostalo juz stworzone
+	if(hSettingsForm)
+	{
+		//Wlaczona zaawansowana stylizacja okien
+		if(ChkSkinEnabled())
+		{
+			TPluginColorChange ColorChange = *(PPluginColorChange)wParam;
+			hSettingsForm->sSkinManager->HueOffset = ColorChange.Hue;
+			hSettingsForm->sSkinManager->Saturation = ColorChange.Saturation;
+			hSettingsForm->sSkinManager->Brightness = ColorChange.Brightness;
+		}
+	}
+
+	return 0;
+}
+//---------------------------------------------------------------------------
+
 //Hook na zamkniecie okna rozmowy lub zakladki
 INT_PTR __stdcall OnCloseTab(WPARAM wParam, LPARAM lParam)
 {
@@ -282,6 +308,7 @@ INT_PTR __stdcall OnThemeChanged(WPARAM wParam, LPARAM lParam)
 				//Zmiana kolorystyki AlphaControls
 				hSettingsForm->sSkinManager->HueOffset = GetHUE();
 				hSettingsForm->sSkinManager->Saturation = GetSaturation();
+				hSettingsForm->sSkinManager->Brightness = GetBrightness();
 				//Aktywacja skorkowania AlphaControls
 				hSettingsForm->sSkinManager->Active = true;
 			}
@@ -314,6 +341,8 @@ extern "C" INT_PTR __declspec(dllexport) __stdcall Load(PPluginLink Link)
 	PluginLink.CreateServiceFunction(L"sTempContactsAddItem",ServiceTempContactsAddItem);
 	//Hook na aktwyna zakladke lub okno rozmowy
 	PluginLink.HookEvent(AQQ_CONTACTS_BUDDY_ACTIVETAB,OnActiveTab);
+	//Hook na zmiane kolorystyki AlphaControls
+	PluginLink.HookEvent(AQQ_SYSTEM_COLORCHANGEV2,OnColorChange);
 	//Hook na zamkniecie okna rozmowy lub zakladki
 	PluginLink.HookEvent(AQQ_CONTACTS_BUDDY_CLOSETAB,OnCloseTab);
 	//Hook na zmiane kompozycji
@@ -342,6 +371,7 @@ extern "C" INT_PTR __declspec(dllexport) __stdcall Unload()
 	PluginLink.DestroyServiceFunction(ServiceTempContactsAddItem);
 	//Wyladowanie wszystkich hookow
 	PluginLink.UnhookEvent(OnActiveTab);
+	PluginLink.UnhookEvent(OnColorChange);
 	PluginLink.UnhookEvent(OnCloseTab);
 	PluginLink.UnhookEvent(OnThemeChanged);
 
