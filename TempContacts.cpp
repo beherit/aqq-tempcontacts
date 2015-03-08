@@ -445,6 +445,14 @@ extern "C" INT_PTR __declspec(dllexport) __stdcall Load(PPluginLink Link)
 		LangCode = (wchar_t*)PluginLink.CallService(AQQ_FUNCTION_GETDEFLANGCODE,0,0);
 		LangPath = PluginUserDir + "\\\\Languages\\\\TempContacts\\\\" + LangCode + "\\\\";
 	}
+	//Wypakiwanie ikonki TempContacts.dll.png
+	//6673272A80C8D5646E6A219797C0184F
+	if(!DirectoryExists(GetPluginUserDir() + "\\\\Shared"))
+		CreateDir(GetPluginUserDir() + "\\\\Shared");
+	if(!FileExists(GetPluginUserDir() + "\\\\Shared\\\\TempContacts.dll.png"))
+		ExtractRes((GetPluginUserDir() + "\\\\Shared\\\\TempContacts.dll.png").w_str(),L"SHARED",L"DATA");
+	else if(MD5File(GetPluginUserDir() + "\\\\Shared\\\\TempContacts.dll.png")!="6673272A80C8D5646E6A219797C0184F")
+		ExtractRes((GetPluginUserDir() + "\\\\Shared\\\\TempContacts.dll.png").w_str(),L"SHARED",L"DATA");
 	//Tworzeniu katalogu z ustawieniami wtyczki
 	if(!DirectoryExists(GetPluginUserDir()+"\\\\TempContacts"))
 		CreateDir(GetPluginUserDir()+"\\\\TempContacts");

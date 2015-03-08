@@ -150,6 +150,10 @@
         <VerInfo_Keys>FileVersion=1.4.2.0;ProductName=TempContacts;ProductVersion=1.0.0.0;CompanyName=Beherit Development;LegalCopyright=Krzysztof Grochocki;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
     </PropertyGroup>
     <ItemGroup>
+        <RcItem Include="Data\TempContacts.dll.png">
+            <ResourceType>DATA</ResourceType>
+            <ResourceId>SHARED</ResourceId>
+        </RcItem>
         <RcItem Include="Languages\EN\Const.lng">
             <ContainerId>ResourceItem</ContainerId>
             <ResourceType>DATA</ResourceType>
