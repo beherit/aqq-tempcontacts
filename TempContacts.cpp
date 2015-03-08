@@ -21,11 +21,10 @@
 
 #include <vcl.h>
 #include <windows.h>
-#pragma hdrstop
-#pragma argsused
-#include "SettingsFrm.h"
-#include <PluginAPI.h>
 #include <inifiles.hpp>
+#include <PluginAPI.h>
+#pragma hdrstop
+#include "SettingsFrm.h"
 
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved)
 {

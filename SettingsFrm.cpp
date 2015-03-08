@@ -21,9 +21,9 @@
 
 //---------------------------------------------------------------------------
 #include <vcl.h>
+#include <inifiles.hpp>
 #pragma hdrstop
 #include "SettingsFrm.h"
-#include <inifiles.hpp>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "sBevel"
