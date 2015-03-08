@@ -417,10 +417,10 @@ extern "C" INT_PTR __declspec(dllexport) __stdcall Load(PPluginLink Link)
 	if(!DirectoryExists(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\PL"))
 		CreateDir(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\PL");
   //Wypakowanie plikow lokalizacji
-	//DB0D6BF9F2B629BEEBE4BA1F8F80F236
+	//DB6FAE5C648D4B1928C79C97924A3307
 	if(!FileExists(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\Const.lng"))
 		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\Const.lng").w_str(),L"EN_CONST",L"DATA");
-	else if(MD5File(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\Const.lng")!="DB0D6BF9F2B629BEEBE4BA1F8F80F236")
+	else if(MD5File(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\Const.lng")!="DB6FAE5C648D4B1928C79C97924A3307")
 		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\Const.lng").w_str(),L"EN_CONST",L"DATA");
 	//7D6612AC431C191A3CBD8F1D6923F553
 	if(!FileExists(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\TSettingsForm.lng"))
