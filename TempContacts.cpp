@@ -422,10 +422,10 @@ extern "C" INT_PTR __declspec(dllexport) __stdcall Load(PPluginLink Link)
 		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\Const.lng").w_str(),L"EN_CONST",L"DATA");
 	else if(MD5File(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\Const.lng")!="DB6FAE5C648D4B1928C79C97924A3307")
 		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\Const.lng").w_str(),L"EN_CONST",L"DATA");
-	//7D6612AC431C191A3CBD8F1D6923F553
+	//33C9F472C504F0F03B2D2A6BC2ED8985
 	if(!FileExists(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\TSettingsForm.lng"))
 		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\TSettingsForm.lng").w_str(),L"EN_SETTINGSFRM",L"DATA");
-	else if(MD5File(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\TSettingsForm.lng")!="7D6612AC431C191A3CBD8F1D6923F553")
+	else if(MD5File(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\TSettingsForm.lng")!="33C9F472C504F0F03B2D2A6BC2ED8985")
 		ExtractRes((PluginUserDir+"\\\\Languages\\\\TempContacts\\\\EN\\\\TSettingsForm.lng").w_str(),L"EN_SETTINGSFRM",L"DATA");
 	//E52894D712F3170CE4E456FDA3763E71
 	if(!FileExists(PluginUserDir+"\\\\Languages\\\\TempContacts\\\\PL\\\\Const.lng"))
