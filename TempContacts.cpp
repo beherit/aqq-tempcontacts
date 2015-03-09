@@ -520,7 +520,7 @@ extern "C" __declspec(dllexport) PPluginInfo __stdcall AQQPluginInfo(DWORD AQQVe
 	PluginInfo.cbSize = sizeof(TPluginInfo);
 	PluginInfo.ShortName = L"TempContacts";
 	PluginInfo.Version = PLUGIN_MAKE_VERSION(1,4,2,0);
-	PluginInfo.Description = L"Wtyczka s³u¿y do automatycznego tymczasowego zapisywania na listê kontaktów osób, których na tej liœcie...nie mamy ;)";
+	PluginInfo.Description = L"Automatycznie dodaje do listy kontaktów, a¿ do zamkniêcia komunikatora, kontakty spoza listy.";
 	PluginInfo.Author = L"Krzysztof Grochocki";
 	PluginInfo.AuthorMail = L"kontakt@beherit.pl";
 	PluginInfo.Copyright = L"Krzysztof Grochocki";

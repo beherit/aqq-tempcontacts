@@ -1,5 +1,5 @@
 # TempContacts
-TempContacts jest wtyczką do komunikatora [AQQ](http://www.aqq.eu/pl.php). Służy do automatycznego tymczasowego zapisywania na listę kontaktów osób, których na tej liście...nie mamy ;)
+TempContacts jest wtyczką do komunikatora [AQQ](http://www.aqq.eu/pl.php). Automatycznie dodaje do listy kontaktów, aż do zamknięcia komunikatora, kontakty spoza listy.
 
 ### Wymagania
 Do skompilowania wtyczki TempContacts potrzebne jest:

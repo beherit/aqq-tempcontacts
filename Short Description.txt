@@ -1,1 +1,4 @@
-Wtyczka zrobiona na podstawie propozycji jednego z u¿ytkowników forum AQQ, s³u¿y do automatycznego tymczasowego zapisywania na listê kontaktów osób, których na tej liœcie...nie mamy ;)
+PL:
+Automatycznie dodaje do listy kontaktów, a¿ do zamkniêcia komunikatora, kontakty spoza listy.
+EN:
+Automatically adding to contact list, until closing communicator, contacts outside of the list.
