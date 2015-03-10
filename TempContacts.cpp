@@ -55,6 +55,8 @@ INT_PTR __stdcall OnCloseTab(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall OnLangCodeChanged(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall OnThemeChanged(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall ServiceTempContactsAddItem(WPARAM wParam, LPARAM lParam);
+//FORWARD-OTHER-FUNCTION-----------------------------------------------------
+void LoadSettings();
 //---------------------------------------------------------------------------
 
 //Pobieranie sciezki katalogu prywatnego wtyczek
@@ -304,6 +306,8 @@ INT_PTR __stdcall OnLangCodeChanged(WPARAM wParam, LPARAM lParam)
 	//Aktualizacja lokalizacji form wtyczki
 	for(int i=0;i<Screen->FormCount;i++)
 		LangForm(Screen->Forms[i]);
+	//Ponowne wczytanie ustawien
+	LoadSettings();
 
 	return 0;
 }
