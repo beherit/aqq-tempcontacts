@@ -1,3 +1,12 @@
+1.5.0.0
+-----
+* Pełne wsparcie kolorystyki stylizacji okien.
+* Obsługa lokalizacji (polskiej i angielskiej).
+* Dodanie ikony pokazywanej w ustawieniach komunikatora na liście wtyczek.
+* Zmiana ikony na formie ustawień wtyczki.
+* Małe poprawki w kodzie.
+* Aktualizacja komponentów AlphaControls do nowszej wersji (9.20).
+
 1.4.2.0
 -----
 * Nieskórkowanie systemowych okien dialogowych niepochodzących z wtyczki.
