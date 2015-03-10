@@ -46,6 +46,8 @@ TStringList *TempContactsList = new TStringList;
 //Informacje-o-aktualnie-aktywnym-tymczasowym-kontakcie----------------------
 UnicodeString LastActiveJID;
 TPluginContact TempContact;
+//ID-wywolania-enumeracji-listy-kontaktow------------------------------------
+DWORD ReplyListID = 0;
 //SETTINGS-------------------------------------------------------------------
 UnicodeString GroupName;
 //FORWARD-AQQ-HOOKS----------------------------------------------------------
@@ -53,6 +55,7 @@ INT_PTR __stdcall OnActiveTab(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall OnColorChange(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall OnCloseTab(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall OnLangCodeChanged(WPARAM wParam, LPARAM lParam);
+INT_PTR __stdcall OnReplyList(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall OnThemeChanged(WPARAM wParam, LPARAM lParam);
 INT_PTR __stdcall ServiceTempContactsAddItem(WPARAM wParam, LPARAM lParam);
 //FORWARD-OTHER-FUNCTION-----------------------------------------------------
@@ -308,6 +311,38 @@ INT_PTR __stdcall OnLangCodeChanged(WPARAM wParam, LPARAM lParam)
 		LangForm(Screen->Forms[i]);
 	//Ponowne wczytanie ustawien
 	LoadSettings();
+	//Pobranie ID dla enumeracji kontaktow
+	ReplyListID = GetTickCount();
+	//Wywolanie enumeracji kontaktow
+	PluginLink.CallService(AQQ_CONTACTS_REQUESTLIST,(WPARAM)ReplyListID,0);
+
+	return 0;
+}
+//---------------------------------------------------------------------------
+
+//Hook na enumeracje listy kontatkow
+INT_PTR __stdcall OnReplyList(WPARAM wParam, LPARAM lParam)
+{
+	//Sprawdzanie ID wywolania enumeracji / komunikator nie jest zamykany
+	if(wParam==ReplyListID)
+	{
+		//Pobieranie danych kontaktu
+		TPluginContact ReplyListContact = *(PPluginContact)lParam;
+		//Pobieranie identyfikatora kontaktu
+		UnicodeString JID = (wchar_t*)ReplyListContact.JID;
+		//Kontakt tymczasowo dodany na liste
+		if(TempContactsList->IndexOf(JID)!=-1)
+		{
+			//Usuniecie kontaktu z listy
+			PluginLink.CallService(AQQ_CONTACTS_DELETE,0,(LPARAM)&ReplyListContact);
+			//Zmiana opisu kontaktu
+			ReplyListContact.Status = GetLangStr("ContactStatus").w_str();
+			//Zmiana nazwy grupy
+			ReplyListContact.Groups = GroupName.w_str();
+			//Ponowne dodanie kontatku na liste
+			PluginLink.CallService(AQQ_CONTACTS_UPDATE,0,(LPARAM)&ReplyListContact);
+		}
+	}
 
 	return 0;
 }
@@ -470,6 +505,8 @@ extern "C" INT_PTR __declspec(dllexport) __stdcall Load(PPluginLink Link)
 	PluginLink.HookEvent(AQQ_CONTACTS_BUDDY_CLOSETAB,OnCloseTab);
 	//Hook na zmiane lokalizacji
 	PluginLink.HookEvent(AQQ_SYSTEM_LANGCODE_CHANGED,OnLangCodeChanged);
+	//Hook na enumeracje listy kontatkow
+	PluginLink.HookEvent(AQQ_CONTACTS_REPLYLIST,OnReplyList);
 	//Hook na zmiane kompozycji
 	PluginLink.HookEvent(AQQ_SYSTEM_THEMECHANGED,OnThemeChanged);
 	//Odczyt ustawien
@@ -496,6 +533,7 @@ extern "C" INT_PTR __declspec(dllexport) __stdcall Unload()
 	PluginLink.UnhookEvent(OnColorChange);
 	PluginLink.UnhookEvent(OnCloseTab);
 	PluginLink.UnhookEvent(OnLangCodeChanged);
+	PluginLink.UnhookEvent(OnReplyList);
 	PluginLink.UnhookEvent(OnThemeChanged);
 
 	return 0;
