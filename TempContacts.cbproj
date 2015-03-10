@@ -77,22 +77,20 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Release>2</VerInfo_Release>
         <PackageImports>acnt_R;adortl;bcbie;bcbsmp;bdertl;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;DataSnapFireDAC;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;FireDAC;FireDACADSDriver;FireDACASADriver;FireDACCommon;FireDACCommonDriver;FireDACDb2Driver;FireDACDBXDriver;FireDACDSDriver;FireDACIBDriver;FireDACInfxDriver;FireDACMSAccDriver;FireDACMSSQLDriver;FireDACMySQLDriver;FireDACODBCDriver;FireDACOracleDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbbde;inetdbxpress;MetropolisUILiveTile;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;svn;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldbx;vcldsnap;vclFireDAC;vclie;vclimg;VCLRESTComponents;vclribbon;VclSmp;vcltouch;vclx;xmlrtl;$(PackageImports)</PackageImports>
-        <VerInfo_MinorVer>4</VerInfo_MinorVer>
+        <VerInfo_MinorVer>5</VerInfo_MinorVer>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Keys>FileVersion=1.4.2.0;ProductName=TempContacts;ProductVersion=1.0.0.0;CompanyName=Beherit Development;LegalCopyright=Krzysztof Grochocki;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
+        <VerInfo_Keys>FileVersion=1.5.0.0;ProductName=TempContacts;ProductVersion=1.0.0.0;CompanyName=Beherit Development;LegalCopyright=Krzysztof Grochocki;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
         <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_MinorVer>4</VerInfo_MinorVer>
+        <VerInfo_MinorVer>5</VerInfo_MinorVer>
         <PackageImports>acnt_R;adortl;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;DataSnapFireDAC;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;FireDAC;FireDACADSDriver;FireDACASADriver;FireDACCommon;FireDACCommonDriver;FireDACDb2Driver;FireDACDBXDriver;FireDACDSDriver;FireDACIBDriver;FireDACInfxDriver;FireDACMSAccDriver;FireDACMSSQLDriver;FireDACMySQLDriver;FireDACODBCDriver;FireDACOracleDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;MetropolisUILiveTile;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclie;vclimg;VCLRESTComponents;vclribbon;VclSmp;vcltouch;vclx;xmlrtl;$(PackageImports)</PackageImports>
-        <VerInfo_Release>2</VerInfo_Release>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BCC_PCHName_Clang>TempContacts.h</BCC_PCHName_Clang>
         <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
-        <VerInfo_Keys>FileVersion=1.4.2.0;ProductName=TempContacts;ProductVersion=1.0.0.0;CompanyName=Beherit Development;LegalCopyright=Krzysztof Grochocki;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
+        <VerInfo_Keys>FileVersion=1.5.0.0;ProductName=TempContacts;ProductVersion=1.0.0.0;CompanyName=Beherit Development;LegalCopyright=Krzysztof Grochocki;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -118,16 +116,13 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_MinorVer>4</VerInfo_MinorVer>
-        <VerInfo_Release>2</VerInfo_Release>
-        <ILINK_LibraryPath>..\..\..\Public\Documents\Embarcadero\Studio\14.0\DCP\;$(BDS)\lib\win32\release\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <VerInfo_MinorVer>5</VerInfo_MinorVer>
         <LinkPackageImports>rtl.bpi;vcl.bpi;acnt_R.bpi;vclimg.bpi;vclx.bpi</LinkPackageImports>
-        <VerInfo_Keys>FileVersion=1.4.2.0;ProductName=TempContacts;ProductVersion=1.0.0.0;CompanyName=Beherit Development;LegalCopyright=Krzysztof Grochocki;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
+        <VerInfo_Keys>FileVersion=1.5.0.0;ProductName=TempContacts;ProductVersion=1.0.0.0;CompanyName=Beherit Development;LegalCopyright=Krzysztof Grochocki;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <VerInfo_MinorVer>4</VerInfo_MinorVer>
-        <VerInfo_Release>2</VerInfo_Release>
-        <VerInfo_Keys>FileVersion=1.4.2.0;ProductName=TempContacts;ProductVersion=1.0.0.0;CompanyName=Beherit Development;LegalCopyright=Krzysztof Grochocki;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
+        <VerInfo_MinorVer>5</VerInfo_MinorVer>
+        <VerInfo_Keys>FileVersion=1.5.0.0;ProductName=TempContacts;ProductVersion=1.0.0.0;CompanyName=Beherit Development;LegalCopyright=Krzysztof Grochocki;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -135,19 +130,18 @@
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <VerInfo_MinorVer>4</VerInfo_MinorVer>
+        <VerInfo_MinorVer>5</VerInfo_MinorVer>
         <LinkPackageStatics>rtl.lib;vcl.lib;acnt_R.lib;vclimg.lib;vclx.lib;IndyProtocols.lib;IndyCore.lib;IndySystem.lib</LinkPackageStatics>
-        <VerInfo_Release>2</VerInfo_Release>
-        <ILINK_LibraryPath>C:\Users\Public\Documents\Embarcadero\Studio\15.0\DCP\;..\..\..\Public\Documents\Embarcadero\Studio\14.0\DCP\;$(BDS)\lib\win32\release\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <VerInfo_Keys>FileVersion=1.4.2.0;ProductName=TempContacts;ProductVersion=1.0.0.0;CompanyName=Beherit Development;LegalCopyright=Krzysztof Grochocki;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
+        <ILINK_LibraryPath>$(BDS)\lib\win32\release\;C:\Users\Public\Documents\Embarcadero\Studio\15.0\Dcp\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <VerInfo_Keys>FileVersion=1.5.0.0;ProductName=TempContacts;ProductVersion=1.0.0.0;CompanyName=Beherit Development;LegalCopyright=Krzysztof Grochocki;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <VerInfo_MinorVer>4</VerInfo_MinorVer>
-        <VerInfo_Release>2</VerInfo_Release>
+        <ILINK_LibraryPath>C:\Users\Public\Documents\Embarcadero\Studio\15.0\Dcp\Win64\;$(BDS)\lib\win64\release\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <VerInfo_MinorVer>5</VerInfo_MinorVer>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <BCC_PCHName_Clang>TempContacts.h</BCC_PCHName_Clang>
-        <VerInfo_Keys>FileVersion=1.4.2.0;ProductName=TempContacts;ProductVersion=1.0.0.0;CompanyName=Beherit Development;LegalCopyright=Krzysztof Grochocki;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
+        <VerInfo_Keys>FileVersion=1.5.0.0;ProductName=TempContacts;ProductVersion=1.0.0.0;CompanyName=Beherit Development;LegalCopyright=Krzysztof Grochocki;LegalTrademarks=Krzysztof Grochocki</VerInfo_Keys>
     </PropertyGroup>
     <ItemGroup>
         <RcItem Include="Data\TempContacts.dll.png">
@@ -211,10 +205,10 @@
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k200.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp200.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k200.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp200.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k210.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp210.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k210.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp210.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment>
