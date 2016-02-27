@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// Copyright (C) 2010-2015 Krzysztof Grochocki
+// Copyright (C) 2010-2016 Krzysztof Grochocki
 //
 // This file is part of TempContacts
 //
@@ -442,7 +442,7 @@ extern "C" INT_PTR __declspec(dllexport) __stdcall Load(PPluginLink Link)
 {
 	//Linkowanie wtyczki z komunikatorem
 	PluginLink = *Link;
-  //Pobranie sciezki do prywatnego folderu wtyczek
+	//Pobranie sciezki do prywatnego folderu wtyczek
 	UnicodeString PluginUserDir = GetPluginUserDir();
 	//Tworzenie katalogow lokalizacji
 	if(!DirectoryExists(PluginUserDir+"\\\\Languages"))
@@ -562,9 +562,9 @@ extern "C" __declspec(dllexport) PPluginInfo __stdcall AQQPluginInfo(DWORD AQQVe
 	PluginInfo.Version = PLUGIN_MAKE_VERSION(1,5,0,0);
 	PluginInfo.Description = L"Automatycznie dodaje do listy kontaktów, a¿ do zamkniêcia komunikatora, kontakty spoza listy.";
 	PluginInfo.Author = L"Krzysztof Grochocki";
-	PluginInfo.AuthorMail = L"kontakt@beherit.pl";
+	PluginInfo.AuthorMail = L"contact@beherit.pl";
 	PluginInfo.Copyright = L"Krzysztof Grochocki";
-	PluginInfo.Homepage = L"http://beherit.pl";
+	PluginInfo.Homepage = L"beherit.pl";
 	PluginInfo.Flag = 0;
 	PluginInfo.ReplaceDefaultModule = 0;
 
